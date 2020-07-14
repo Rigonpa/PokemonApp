@@ -3,6 +3,7 @@ import View from './view'
 import {pokemonActions} from '../../../redux/pokemons'
 
 const mapStateToProps = (state) => {
+  console.log('globalState: ', state)
   return {
     list: state.pokemons.list,
     loading: state.pokemons.loading
