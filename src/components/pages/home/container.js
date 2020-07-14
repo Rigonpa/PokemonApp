@@ -12,7 +12,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, getState) => {
   return {
-    downloadPokemons: () => dispatch(pokemonActions.getPokemons())
+    downloadPokemons: () => dispatch(pokemonActions.getPokemons()),
+    downloadPokemonData: (pokemonId) =>
+      dispatch(pokemonActions.getPokemonData(pokemonId))
   }
 }
 

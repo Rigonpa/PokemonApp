@@ -22,9 +22,14 @@ export const getPokemons = () => {
   return async (dispatch, getState) => {
     try {
       dispatch(setLoading(true))
-      const getPokemonRes = await api.getPokemons()
-      console.log('getPokemonRes: ', getPokemonRes)
-      const list = getPokemonRes.data.results
+      const list = []
+      for (var pokemonId = 1; pokemonId < 101; pokemonId++) {
+        const pokemonObj = await api.getPokemonData(pokemonId)
+        list.push(pokemonObj.data)
+      }
+
+      console.log('Lista de pokemon: ', list)
+
       dispatch(updateList(list))
     } catch (e) {
       Alert.alert('Error', e.message || 'Error al descargar los pokemons')
