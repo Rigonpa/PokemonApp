@@ -1,7 +1,8 @@
 export default colors = {
-  main: '#272727',
-  navBar: '#171717',
+  main: '#D7E3D5',
+  second: '#C2CCC0',
+  third: '#A0A89E',
+  navBar: '#494D48',
   white: 'white',
-  black: 'black',
-  grey: 'grey'
+  black: 'black'
 }

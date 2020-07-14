@@ -1,19 +1,14 @@
 import React from 'react'
 import {View, SafeAreaView, Text, FlatList} from 'react-native'
 import styles from './styles'
-import colors from '../../../assets/colors'
-import {color} from 'react-native-reanimated'
+import {PokemonCard} from '../../molecules'
 
 class Home extends React.Component {
   componentDidMount() {
     this.props.downloadPokemons()
   }
 
-  _renderItem = ({item}) => (
-    <View>
-      <Text style={{color: 'white'}}>{item.name}</Text>
-    </View>
-  )
+  _renderItem = ({item}) => <PokemonCard pokemon={{item}} />
 
   render() {
     const {list} = this.props
