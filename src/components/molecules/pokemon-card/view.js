@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 class PokemonCard extends React.Component {
   render() {
-    const {pokemon} = this.props
+    const {pokemon, onPress} = this.props
     const image = {uri: pokemon.item.sprites.front_default}
     const pokemonTypes = []
     for (var i = 0; i < _.size(pokemon.item.types); i++) {
@@ -15,7 +15,7 @@ class PokemonCard extends React.Component {
       return `${result}, ${item}`
     })
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => onPress(pokemon)}>
         <View style={styles.cell}>
           <Image source={image} style={styles.image} />
           <View style={styles.textSection}>

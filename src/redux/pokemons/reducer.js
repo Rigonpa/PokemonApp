@@ -12,6 +12,8 @@ const reducer = (state = initialState, action = {}) => {
       return {...state, loading: action.payload.loading}
     case types.UPDATE_LIST:
       return {...state, list: action.payload.list}
+    case types.SET_ITEM:
+      return {...state, item: action.payload.item}
     default:
       return state
   }

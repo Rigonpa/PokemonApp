@@ -23,18 +23,24 @@ export const getPokemons = () => {
     try {
       dispatch(setLoading(true))
       const list = []
-      for (var pokemonId = 1; pokemonId < 101; pokemonId++) {
+      for (var pokemonId = 1; pokemonId < 31; pokemonId++) {
         const pokemonObj = await api.getPokemonData(pokemonId)
         list.push(pokemonObj.data)
       }
-
-      console.log('Lista de pokemon: ', list)
-
       dispatch(updateList(list))
+      dispatch(setLoading(false))
     } catch (e) {
       Alert.alert('Error', e.message || 'Error al descargar los pokemons')
-    } finally {
       dispatch(setLoading(false))
+    } finally {
     }
   }
+}
+
+export const setItem = (item) => {
+  const action = {
+    type: types.SET_ITEM,
+    payload: {item}
+  }
+  return action
 }

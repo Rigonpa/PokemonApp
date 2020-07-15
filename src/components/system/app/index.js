@@ -1,6 +1,6 @@
 import React from 'react'
 import {Router, Scene, Stack} from 'react-native-router-flux'
-import {Home} from '../../pages'
+import {Home, Detail} from '../../pages'
 import store from '../../../config/redux'
 import {Provider} from 'react-redux'
 import colors from '../../../assets/colors'
@@ -20,6 +20,11 @@ class App extends React.Component {
               key={'Home'}
               component={Home}
               title={'Pokedex'}
+              titleStyle={{color: colors.white}}
+            />
+            <Scene
+              key={'Detail'}
+              component={Detail}
               titleStyle={{color: colors.white}}
             />
           </Stack>
