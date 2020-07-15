@@ -12,7 +12,9 @@ class Home extends React.Component {
 
   _onPokemonSelected = (pokemon) => {
     this.props.savePokemonInRedux(pokemon)
-    Actions.push('Detail', {title: pokemon.name})
+    Actions.push('Detail', {
+      title: pokemon.item.name.toUpperCase()
+    })
   }
 
   _renderItem = ({item}) => (
@@ -34,7 +36,7 @@ class Home extends React.Component {
               colors={[colors.black]}
               tintColor={colors.black}
               refreshing={loading}
-              onRefresh={this.props.downloadPokemons()}
+              onRefresh={this.props.downloadPokemons}
               title={'Loading'}
               titleColor={colors.black}
             />
