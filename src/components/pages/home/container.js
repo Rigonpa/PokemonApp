@@ -11,8 +11,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, getState) => {
   return {
-    downloadPokemons: () => dispatch(pokemonActions.getPokemons()),
-    savePokemonInRedux: (pokemon) => dispatch(pokemonActions.setItem(pokemon))
+    downloadPokemons: () => dispatch(pokemonActions.initList()),
+    savePokemonInRedux: (pokemon) => dispatch(pokemonActions.setItem(pokemon)),
+    fetchNextPage: () => dispatch(pokemonActions.fetchNextPage())
   }
 }
 
