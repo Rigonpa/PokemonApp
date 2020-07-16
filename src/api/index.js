@@ -6,7 +6,11 @@ const instance = axios.create({
   headers: {'Content-Type': 'application/json'}
 })
 
-export const getPokemonData = (pokemonId) => {
-  const url = `/pokemon/${pokemonId}`
+export const getPokemons = () => {
+  const url = '/pokemon'
   return instance.get(url)
+}
+
+export const getPokemonData = (endPoint) => {
+  return instance.get(endPoint)
 }

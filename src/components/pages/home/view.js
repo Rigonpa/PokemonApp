@@ -23,8 +23,6 @@ class Home extends React.Component {
 
   render() {
     const {list, loading} = this.props
-    console.log('this.props: ', this.props)
-    console.log('---------------------------------')
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
