@@ -36,10 +36,11 @@ class Home extends React.Component {
       <SafeAreaView style={styles.container}>
         <FlatList
           data={list}
+          showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => `pokemon-${item.name}`}
           renderItem={this._renderItem}
           onEndReached={this._onEndReached}
-          onEndReachedThreshold={0.8}
+          onEndReachedThreshold={0.6}
           refreshControl={
             <RefreshControl
               colors={[colors.black]}

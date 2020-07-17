@@ -49,7 +49,7 @@ _obtainSpecificPokemonData = async (value) => {
   try {
     const endPoint = value.url.substring(25, 50)
     const pokemonData = await api.getPokemonData(value.url)
-    return pokemonData
+    return pokemonData.data
   } catch (e) {
     Alert.alert('Error', e.message || `Error downloading ${value.name} data`)
     dispatch(setLoading(false))
@@ -58,7 +58,6 @@ _obtainSpecificPokemonData = async (value) => {
 
 export const getPokemons = () => {
   return async (dispatch, getState) => {
-    console.log('getState: ', getState())
     try {
       dispatch(setLoading(true))
       const {list, page} = getState().pokemons
@@ -66,36 +65,19 @@ export const getPokemons = () => {
         limit: ITEMS_PER_PAGE,
         offset: ITEMS_PER_PAGE * page
       }
-      const newList = []
       const pokemonList = await api.getPokemons(params)
 
-      pokemonList.data.results.map(async (value) => {
-        const pokemonSpecificData = await _obtainSpecificPokemonData(value)
-        newList.push(pokemonSpecificData.data)
+      const apiCallsArray = pokemonList.data.results.map(async (value) => {
+        return _obtainSpecificPokemonData(value)
       })
 
+      const newList = await Promise.all(apiCallsArray)
+
       const totalList = [...list, ...newList]
-      // list.push(newList[0])
 
-      // newList.map((value) => {
-      //   list.push(value.data)
-      // })
-
-      console.log('totalList: ', totalList)
-      console.log('list: ', list)
-      console.log('newList: ', newList)
-      console.log('Page: ', page)
-
-      // _.orderBy(newList, ['id'])
-      // dispatch(updateList(newList))
       _.orderBy(totalList, ['id'])
       dispatch(updateList(totalList))
       dispatch(setLoading(false))
-
-      // for (var pokemonId = 1; pokemonId < 31; pokemonId++) {
-      //   const pokemonObj = await api.getPokemonData(pokemonId)
-      //   list.push(pokemonObj.data)
-      // }
     } catch (e) {
       Alert.alert('Error', e.message || 'Error downloading pokemon list')
       dispatch(setLoading(false))
