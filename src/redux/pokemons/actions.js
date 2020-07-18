@@ -1,6 +1,7 @@
 import * as types from './types'
 import * as api from '../../api'
 import {Alert} from 'react-native'
+import {Actions} from 'react-native-router-flux'
 import _ from 'lodash'
 
 const ITEMS_PER_PAGE = 10
@@ -26,6 +27,17 @@ const updatePage = (page) => {
     payload: {page: page}
   }
   return action
+}
+
+export const addElementToList = (data) => {
+  return (dispatch, getState) => {
+    const {list} = getState().pokemons
+    const newList = [data, ...list]
+    dispatch(updateList(newList))
+    Alert.alert('Congrats', `${data.name} was created!`, [
+      {text: 'Accept', onPress: () => Actions.pop()}
+    ])
+  }
 }
 
 export const initList = () => {
@@ -66,15 +78,11 @@ export const getPokemons = () => {
         offset: ITEMS_PER_PAGE * page
       }
       const pokemonList = await api.getPokemons(params)
-
       const apiCallsArray = pokemonList.data.results.map(async (value) => {
         return _obtainSpecificPokemonData(value)
       })
-
       const newList = await Promise.all(apiCallsArray)
-
       const totalList = [...list, ...newList]
-
       _.orderBy(totalList, ['id'])
       dispatch(updateList(totalList))
       dispatch(setLoading(false))

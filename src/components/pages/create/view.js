@@ -1,7 +1,15 @@
 import React from 'react'
-import {Image, Text, SafeAreaView, View, TextInput, Button} from 'react-native'
+import {
+  Image,
+  Text,
+  SafeAreaView,
+  View,
+  TextInput,
+  TouchableOpacity
+} from 'react-native'
 import {styles} from './styles'
-import {TouchableOpacity} from 'react-native-gesture-handler'
+import ImagePicker from 'react-native-image-picker'
+import {IMAGE_OPTIONS} from '../../../config/images'
 
 class Create extends React.Component {
   constructor(props) {
@@ -15,11 +23,49 @@ class Create extends React.Component {
       moves: ''
     }
   }
+
+  _onSubmit = () => {
+    const {image, name, types, weight, height, moves} = this.state
+    if (
+      (image != null,
+      name != '',
+      types != '',
+      weight != '',
+      height != '',
+      moves != '')
+    ) {
+      const data = {
+        image: image,
+        // image && image.data ? `data:image/jpeg;base64,${image.data}` : null,
+        name: name,
+        types: types,
+        weight: weight,
+        height: height,
+        moves: moves
+      }
+      this.props.insertNewPokemonInList(data)
+    }
+  }
+
+  _onSelectImage = () => {
+    ImagePicker.showImagePicker(IMAGE_OPTIONS, (response) => {
+      if (response.uri) {
+        this.setState({image: response})
+      }
+    })
+  }
+
   render() {
     const {image, name, types, weight, height, moves} = this.state
     return (
       <SafeAreaView style={styles.container}>
-        <Image style={styles.image} />
+        <TouchableOpacity onPress={this._onSelectImage} style={styles.image}>
+          <Image
+            source={image ? {uri: image.uri} : null}
+            style={styles.imageBackground}
+          />
+          <Text>{image ? null : 'Press to pick image'}</Text>
+        </TouchableOpacity>
         <View style={styles.nameCell}>
           <Text style={styles.nameLabel}>{'Name: '}</Text>
           <TextInput
@@ -61,7 +107,7 @@ class Create extends React.Component {
             multiline={true}
           />
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => onPress()}>
+        <TouchableOpacity style={styles.button} onPress={this._onSubmit}>
           <Text style={styles.buttonText}>{'Save'}</Text>
         </TouchableOpacity>
       </SafeAreaView>

@@ -6,24 +6,40 @@ import _ from 'lodash'
 class PokemonCard extends React.Component {
   render() {
     const {pokemon, onPress} = this.props
-    const image = {uri: pokemon.item.sprites.front_default}
+
+    var image = null
+    var name = null
     const pokemonTypes = []
-    for (var i = 0; i < _.size(pokemon.item.types); i++) {
-      pokemonTypes.push(pokemon.item.types[i].type.name)
+    var stringTypes = null
+    var weight = null
+
+    if (pokemon.item.id !== undefined) {
+      // Api pokemon
+      image = {uri: pokemon.item.sprites.front_default}
+      name = pokemon.item.name
+      for (var i = 0; i < _.size(pokemon.item.types); i++) {
+        pokemonTypes.push(pokemon.item.types[i].type.name)
+      }
+      stringTypes = pokemonTypes.reduce((result, item) => {
+        return `${result}, ${item}`
+      })
+      weight = `${pokemon.item.weight / 10} kg`
+    } else {
+      // Manual pokemon
+      image = {uri: pokemon.item.image.uri}
+      name = pokemon.item.name
+      stringTypes = pokemon.item.types
+      weight = pokemon.item.weight
     }
-    const stringTypes = pokemonTypes.reduce((result, item) => {
-      return `${result}, ${item}`
-    })
+
     return (
       <TouchableOpacity onPress={() => onPress(pokemon)}>
         <View style={styles.cell}>
           <Image source={image} style={styles.image} />
           <View style={styles.textSection}>
-            <Text style={styles.name}>{pokemon.item.name}</Text>
+            <Text style={styles.name}>{name}</Text>
             <Text style={styles.types}>{stringTypes}</Text>
-            <Text style={styles.weight}>{`${
-              pokemon.item.weight / 10
-            } kg`}</Text>
+            <Text style={styles.weight}>{weight}</Text>
           </View>
         </View>
         <View style={styles.separator} />

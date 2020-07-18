@@ -39,7 +39,6 @@ class App extends React.Component {
               backButtonTextStyle={{color: colors.white}}
               backButtonTintColor={colors.white}
               title={'Create pokemon'}
-              initial
             />
           </Stack>
         </Router>
